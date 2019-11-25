@@ -1,0 +1,25 @@
+--创建表空间
+create tablespace PT6 datafile '&1\pt6.dbf' size 100m autoextend on next 10m;
+--创建用户
+create user pt6 identified by cape default tablespace PT6;
+--赋权
+grant dba to pt6;
+
+导入dmp文件
+imp pt6/cape@XXXX file=d:\XXXX.dmp fromuser=pt6_formal touser=pt6
+--删除表空间
+drop user pt6 cascade;
+drop tablespace pt6 including contents and datafiles;
+
+
+
+
+imp waoa530/cape@XXXX file=d:\XXXX.dmp fromuser=pt6_formal touser=pt6
+
+
+
+create or replace directory abc as 'f:\'
+impdp waoa530/cape@pt6  directory =abc dumpfile=2180530.EXPDP      REMAP_SCHEMA=pt6:waoa530 logfile=waoa530.log
+
+
+impdp pt6/cape@pt6  directory =abc dumpfile=20180316.EXPDP    schemas=pt6    logfile=pt620180403.log
